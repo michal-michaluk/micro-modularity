@@ -65,10 +65,10 @@ public class ShortageFinder {
         for (LocalDate day : dates) {
             DemandEntity demand = demandsPerDay.get(day);
             if (demand == null) {
-                level = outputs.getLevel(day, level);
+                level += outputs.sumOfOutputs(day);
                 continue;
             }
-            long produced = outputs.getProduced(day);
+            long produced = outputs.sumOfOutputs(day);
 
             long levelOnDelivery;
             if (Util.getDeliverySchema(demand) == DeliverySchema.atDayStart) {
