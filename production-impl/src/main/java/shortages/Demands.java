@@ -7,6 +7,8 @@ import java.util.Map;
 
 public class Demands {
 
+    private static final DailyDemand NO_DEMAND = new DailyDemand(0, DeliverySchema.tillEndOfDay);
+
     private final Map<LocalDate, DailyDemand> demands;
 
     public Demands(Map<LocalDate, DailyDemand> demands) {
@@ -14,7 +16,7 @@ public class Demands {
     }
 
     public DailyDemand get(LocalDate day) {
-        return demands.getOrDefault(day, null);
+        return demands.getOrDefault(day, NO_DEMAND);
     }
 
     public static class DailyDemand {
