@@ -1,29 +1,16 @@
 package shortages;
 
-import entities.ProductionEntity;
-
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Map;
 
 public class ProductionOutputs {
-    private final Map<LocalDate, List<ProductionEntity>> outputs;
+    private final Map<LocalDate, Long> outputs;
 
-    public ProductionOutputs(List<ProductionEntity> productions) {
-        Map<LocalDate, List<ProductionEntity>> outputs = new HashMap<>();
-        for (ProductionEntity production : productions) {
-            if (!outputs.containsKey(production.getStart().toLocalDate())) {
-                outputs.put(production.getStart().toLocalDate(), new ArrayList<>());
-            }
-            outputs.get(production.getStart().toLocalDate()).add(production);
-        }
-        this.outputs = Collections.unmodifiableMap(outputs);
+    public ProductionOutputs(Map<LocalDate, Long> outputs) {
+        this.outputs = outputs;
     }
 
     public long sumOfOutputs(LocalDate day) {
-        long sum = 0;
-        for (ProductionEntity production : outputs.get(day)) {
-            sum += production.getOutput();
-        }
-        return sum;
+        return outputs.getOrDefault(day, 0L);
     }
 }
