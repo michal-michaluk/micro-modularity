@@ -2,12 +2,12 @@ package services.impl;
 
 import api.QualityService;
 import api.StorageUnit;
-import dao.ShortageDao;
-import entities.ShortageEntity;
 import external.CurrentStock;
 import external.JiraService;
 import external.NotificationsService;
 import external.StockService;
+import shortages.ShortageDao;
+import shortages.ShortageEntity;
 
 import java.time.Clock;
 import java.time.LocalDate;

@@ -1,4 +1,4 @@
-package entities;
+package shortages;
 
 import java.time.LocalDate;
 

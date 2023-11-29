@@ -5,15 +5,15 @@ import api.PlannerService;
 import dao.FormDao;
 import dao.LineDao;
 import dao.ProductionDao;
-import dao.ShortageDao;
 import entities.FormEntity;
 import entities.LineEntity;
 import entities.ProductionEntity;
-import entities.ShortageEntity;
 import external.CurrentStock;
 import external.JiraService;
 import external.NotificationsService;
 import external.StockService;
+import shortages.ShortageDao;
+import shortages.ShortageEntity;
 import tools.Util;
 
 import java.time.Clock;

@@ -1,7 +1,5 @@
 package shortages;
 
-import entities.ShortageEntity;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
