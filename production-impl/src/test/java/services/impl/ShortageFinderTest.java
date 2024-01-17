@@ -8,6 +8,8 @@ import external.CurrentStock;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import shortage.DemandsRepository;
+import shortage.ProductionOutputsRepository;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -27,7 +29,10 @@ public class ShortageFinderTest {
 
     private final DemandDao demands = Mockito.mock(DemandDao.class);
     private final ProductionDao productions = Mockito.mock(ProductionDao.class);
-    private final ShortageFinder subject = new ShortageFinder(demands, productions);
+    private final ShortageFinder subject = new ShortageFinder(
+            new DemandsRepository(demands),
+            new ProductionOutputsRepository(productions)
+    );
 
     @Test
     public void findShortages() {

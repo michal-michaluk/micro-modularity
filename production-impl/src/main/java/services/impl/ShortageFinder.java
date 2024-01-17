@@ -1,14 +1,12 @@
 package services.impl;
 
-import dao.DemandDao;
-import dao.ProductionDao;
-import entities.DemandEntity;
-import entities.ProductionEntity;
 import entities.ShortageEntity;
 import external.CurrentStock;
 import shortage.Demands;
 import shortage.Demands.DailyDemand;
+import shortage.DemandsRepository;
 import shortage.ProductionOutputs;
+import shortage.ProductionOutputsRepository;
 
 import java.time.LocalDate;
 import java.util.LinkedList;
@@ -17,12 +15,12 @@ import java.util.stream.Stream;
 
 public class ShortageFinder {
 
-    private final DemandDao demandDao;
-    private final ProductionDao productionDao;
+    private final DemandsRepository demands;
+    private final ProductionOutputsRepository productions;
 
-    public ShortageFinder(DemandDao demandDao, ProductionDao productionDao) {
-        this.demandDao = demandDao;
-        this.productionDao = productionDao;
+    public ShortageFinder(DemandsRepository demands, ProductionOutputsRepository productions) {
+        this.demands = demands;
+        this.productions = productions;
     }
 
     /**
@@ -44,15 +42,12 @@ public class ShortageFinder {
      * (increase amount in scheduled transport or organize extra transport at given time)
      */
     public List<ShortageEntity> findShortages(String productRefNo, LocalDate today, int daysAhead, CurrentStock stock) {
-        List<ProductionEntity> productions = productionDao.findFromTime(productRefNo, today.atStartOfDay());
-        List<DemandEntity> demands = demandDao.findFrom(today.atStartOfDay(), productRefNo);
-
         List<LocalDate> dates = Stream.iterate(today, date -> date.plusDays(1))
                 .limit(daysAhead)
                 .toList();
 
-        ProductionOutputs outputs = new ProductionOutputs(productions);
-        Demands demandsPerDay = new Demands(demands);
+        ProductionOutputs outputs = productions.get(productRefNo, today);
+        Demands demandsPerDay = demands.get(productRefNo, today);
 
         long level = stock.getLevel();
 
@@ -80,4 +75,5 @@ public class ShortageFinder {
         }
         return gap;
     }
+
 }
